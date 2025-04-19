@@ -1,8 +1,18 @@
+import { AnalyticsService } from "@/features/AnalyticsService"
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared"
 import { CheckCircle, Database, Users } from "lucide-react"
 import Link from "next/link"
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const tasksAmount = await AnalyticsService.getTotalTasks();
+  const usersAmount = await AnalyticsService.getTotalUsers();
+
+  if (!tasksAmount.ok || !usersAmount.ok) {
+    return (
+      <h1>Something get wrong! Try later</h1>
+    )
+  }
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -21,7 +31,7 @@ export default function DashboardPage() {
             <Database className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24</div>
+            <div className="text-2xl font-bold">{tasksAmount.res}</div>
           </CardContent>
         </Card>
         <Card>
@@ -30,7 +40,7 @@ export default function DashboardPage() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">573</div>
+            <div className="text-2xl font-bold">{usersAmount.res}</div>
           </CardContent>
         </Card>
         <Card>
@@ -43,47 +53,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Tasks</CardTitle>
-            <CardDescription>Recently created SQL tasks</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {[
-                { id: 1, title: "Basic SELECT Queries", difficulty: "Easy", created: "2 days ago" },
-                { id: 2, title: "JOIN Operations", difficulty: "Medium", created: "3 days ago" },
-                { id: 3, title: "Aggregate Functions", difficulty: "Medium", created: "5 days ago" },
-                { id: 4, title: "Subqueries", difficulty: "Hard", created: "1 week ago" },
-              ].map((task) => (
-                <div key={task.id} className="flex items-center justify-between border-b pb-2 last:border-0 last:pb-0">
-                  <div>
-                    <p className="font-medium">{task.title}</p>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span
-                        className={`px-2 py-0.5 rounded-full text-xs ${
-                          task.difficulty === "Easy"
-                            ? "bg-green-100 text-green-800"
-                            : task.difficulty === "Medium"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        {task.difficulty}
-                      </span>
-                      <span>{task.created}</span>
-                    </div>
-                  </div>
-                  <Link href={`/admin/tasks/${task.id}`} className="text-primary text-sm hover:underline">
-                    View
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
 
         <Card>
           <CardHeader>
@@ -116,6 +85,5 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
   )
 }

@@ -1,4 +1,4 @@
-import { $api } from "@/shared";
+import { $api, handleErr, Maybe } from "@/shared";
 
 export enum TaskLevels {
     EASY = "EASY",
@@ -30,13 +30,10 @@ export type CreateTaskDto = {
 }
 
 export class TaskService {
-    static async createTask(dto: CreateTaskDto): Promise<{ ok: boolean }> {
-        try {
+    static async createTask(dto: CreateTaskDto): Promise<Maybe<{ ok: true }>> {
+        return handleErr<{ ok: true }>(async () => {
             const result = await $api.post<{ok: true }>("/task", dto);
             return result.data;
-        } catch (err) {
-            console.error(err)
-            return { ok: false }
-        }
+        });
     }
 }
