@@ -1,7 +1,7 @@
 "use client"
 
 import { SqlEditor } from "@/entities/sqlEditor";
-import { CreateSubTaskDto, SubTask, TaskLevels, TaskService, CreateTaskDto } from "@/features/TaskService";
+import { CreateSubTaskDto, SubTask, TaskLevels, TaskService, CreateTaskDto } from "@/services/TaskService";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertTitle, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Textarea } from "@/shared"
 import { AlertCircle, GripVertical, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";

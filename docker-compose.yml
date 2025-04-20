@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  nextjs:
+    container_name: Tulahack-nextjs
+    env_file:
+      - .env.production
+    build:
+      context: .
+    networks:
+      - nginx
+    ports:
+      - "3000:3000"
+    command: npm run start
+    restart: unless-stopped
+
+networks:
+  nginx:
+    external: true

@@ -1,4 +1,4 @@
-import { AnalyticsService } from "@/features/AnalyticsService"
+import { AnalyticsService } from "@/services/AnalyticsService"
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared"
 import { CheckCircle, Database, Users } from "lucide-react"
 import Link from "next/link"
@@ -6,6 +6,7 @@ import Link from "next/link"
 export default async function DashboardPage() {
   const tasksAmount = await AnalyticsService.getTotalTasks();
   const usersAmount = await AnalyticsService.getTotalUsers();
+  const completedTasksAmount = await AnalyticsService.getCompletedTasks();
 
   if (!tasksAmount.ok || !usersAmount.ok) {
     return (
@@ -43,13 +44,13 @@ export default async function DashboardPage() {
             <div className="text-2xl font-bold">{usersAmount.res}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="w-72">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Completed Tasks</CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,842</div>
+            <div className="text-2xl font-bold">{completedTasksAmount.res}</div>
           </CardContent>
         </Card>
       </div>

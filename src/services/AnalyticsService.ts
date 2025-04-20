@@ -17,7 +17,7 @@ export class AnalyticsService {
 
     static async getCompletedTasks() {
         return handleErr<number>(async () => {
-            const res = await $api.get<number>("/analytics/solvedTasks");
+            const res = await $api.get<number>("/analytics/completedTasks");
             return res.data;
         });
     }

@@ -1,7 +1,13 @@
+"use client"
+
 import Link from "next/link"
-import { BarChart3, Database, LayoutDashboard, List, PlusCircle, Settings } from "lucide-react"
+import { Database, LayoutDashboard, List, LogOut, PlusCircle, Settings } from "lucide-react"
+import { Button } from "./button"
+import { useRouter } from "next/navigation"
 
 export function Sidebar() {
+  const { replace } = useRouter();
+  
   return (
     <div className="w-64 bg-white dark:bg-gray-800 min-h-dvh border-r dark:border-gray-700 flex flex-col">
       <div className="p-4 border-b dark:border-gray-700">
@@ -40,6 +46,9 @@ export function Sidebar() {
             <p className="text-sm font-medium">Admin User</p>
             <p className="text-xs text-gray-500 dark:text-gray-400">admin@example.com</p>
           </div>
+          <Button variant="outline" onClick={() => {
+            replace("/auth")
+          }}><LogOut/></Button>
         </div>
       </div>
     </div>
